@@ -1,0 +1,23 @@
+services:
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: dev_nginx
+    volumes:
+      - './nginx.conf:/etc/nginx/nginx.conf'
+      - '/etc/letsencrypt:/etc/letsencrypt'
+      - '/var/docker/nginx/logs:/var/log/nginx'
+    ports:
+      - 443:443
+      - 80:80
+    networks:
+      nginx_dev:
+
+networks:
+  nginx_dev:
+    driver: bridge
+    name: nginx_dev
+    ipam:
+      driver: default
+      config:
+          - subnet: 172.16.0.0/24
